@@ -13,6 +13,24 @@ Built for ETHGlobal Tokyo 2026.
 3. The server validates the zero-knowledge proof using World ID's Cloud Verification API.
 4. The proof's nullifier can post only once, without revealing the person's identity.
 
+## Architecture
+
+The browser opens the IDKit verification flow and sends the resulting proof with the user's message to a Next.js API route. The server verifies that proof with World ID's Cloud Verification API before saving anything. A successful proof's anonymous nullifier is retained only to enforce the one-person-one-message rule; public API responses never expose it.
+
+```text
+IDKit widget → Next.js verification route → World ID Cloud API
+                                           ↓
+                                  verified message store
+```
+
+## ETHGlobal submission
+
+- **Project:** Human Wall
+- **Event:** ETHGlobal Tokyo 2026
+- **World integration:** IDKit and Cloud Verification API
+- **Core mechanic:** one anonymous message per verified human
+- **Submission artwork:** [`public/submission`](public/submission)
+
 ## Run locally
 
 ```bash
