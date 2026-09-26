@@ -109,9 +109,13 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 .empty { grid-column: 1 / -1; padding: 60px; border: 2px dashed #999; text-align: center; color: #666; }
 
 @media (max-width: 700px) {
-  .hero { padding-top: 48px; }
+  .hero { padding: 48px 20px 56px; }
   .orb { width: 280px; height: 280px; }
+  .composer { padding: 18px; }
+  .composerFooter { align-items: stretch; flex-direction: column; }
+  .composerFooter button { width: 100%; }
   .grid { grid-template-columns: 1fr; }
-  .wallHeader { align-items: flex-end; }
-  .wallHeader span { text-align: right; }
+  .wall { padding-inline: 20px; }
+  .wallHeader { align-items: flex-start; flex-direction: column; }
+  .wallHeader span { text-align: left; }
 }
