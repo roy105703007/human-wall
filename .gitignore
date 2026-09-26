@@ -1,0 +1,7 @@
+node_modules
+.next
+.env*
+!.env.example
+data/messages.json
+npm-debug.log*
+.DS_Store
