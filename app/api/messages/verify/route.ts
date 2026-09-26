@@ -8,6 +8,11 @@ type Proof = {
   verification_level: string;
 };
 
+type VerificationResponse = {
+  success?: boolean;
+  detail?: string;
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { proof, message } = (await request.json()) as { proof: Proof; message: string };
@@ -21,6 +26,9 @@ export async function POST(request: NextRequest) {
     if (!cleanMessage || cleanMessage.length > 180) {
       return NextResponse.json({ error: "Message must be between 1 and 180 characters." }, { status: 400 });
     }
+    if (!proof?.nullifier_hash || !proof.proof || !proof.merkle_root || !proof.verification_level) {
+      return NextResponse.json({ error: "A complete World ID proof is required." }, { status: 400 });
+    }
 
     const verification = await fetch(`https://developer.worldcoin.org/api/v2/verify/${appId}`, {
       method: "POST",
@@ -28,7 +36,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ ...proof, action }),
     });
 
-    const result = await verification.json();
+    const result = (await verification.json().catch(() => ({}))) as VerificationResponse;
     if (!verification.ok || !result.success) {
       return NextResponse.json({ error: result.detail ?? "World ID verification failed." }, { status: 400 });
     }
